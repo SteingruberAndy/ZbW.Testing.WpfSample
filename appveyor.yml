@@ -1,4 +1,4 @@
-version: 1.0.0.{​​build}​​
+version: 1.0.0.{build}
 image: Visual Studio 2019
 configuration: Debug
 platform: Any CPU
@@ -8,19 +8,19 @@ init:
 dotnet_csproj:
   patch: true
   file: '**\*.csproj'
-  version: '{​​version}​​'
-  version_prefix: '{​​version}​​'
-  package_version: '{​​version}​​'
-  assembly_version: '{​​version}​​'
-  file_version: '{​​version}​​'
-  informational_version: '{​​version}​​'
+  version: '{version}'
+  version_prefix: '{version}'
+  package_version: '{version}'
+  assembly_version: '{version}'
+  file_version: '{version}'
+  informational_version: '{version}'
 before_build:
 - cmd: nuget restore
 - cmd: dotnet tool install -g dotnet-sonarscanner
-- cmd: dotnet sonarscanner begin /o:"steingruberandy" /k:"SteingruberAndy_ZbW.Testing.WpfSample" /v:%APPVEYOR_BUILD_VERSION% /d:sonar.branch.name=%APPVEYOR_REPO_BRANCH% /d:sonar.host.url="https://sonarcloud.io" /d:sonar.login="f9b8be6b3546e29d12661d9780fa4f6b02677661" /d:sonar.language="cs /d:sonar.exclusions="**/bin/**/*,**/obj/**/*" /d:sonar.cs.opencover.reportsPaths="CoverageResults\coverage.opencover.xml"
+- cmd: dotnet sonarscanner begin /o:"steingruberandy" /k:"SteingruberAndy_ZbW.Testing.WpfSample" /v:%APPVEYOR_BUILD_VERSION% /d:sonar.branch.name=%APPVEYOR_REPO_BRANCH% /d:sonar.host.url="https://sonarcloud.io" /d:sonar.login="f9b8be6b3546e29d12661d9780fa4f6b02677661" /d:sonar.language="cs" /d:sonar.exclusions="**/bin/**/*,**/obj/**/*" /d:sonar.cs.opencover.reportsPaths="CoverageResults\coverage.opencover.xml"
 build_script:
 - cmd: dotnet build ZbW.Testing.WpfSample.sln
-- cmd: dotnet test ZbW.Testing.WpfSample.Client.IntegrationTests\ZbW.Testing.WpfSample.Client.IntegrationTests.csproj /p:CollectCoverage=true /p:CoverletOutput="../CoverageResults/"
+- cmd: dotnet test ZbW.Testing.WpfSample.Client.IntegrationTests\ZbW.Testing.WpfSample.Client.IntegrationTests.csproj /p:CollectCoverage=true /p:CoverletOutput="../CoverageResults/" 
 - cmd: dotnet test ZbW.Testing.WpfSample.Client.UnitTests\ZbW.Testing.WpfSample.Client.UnitTests.csproj /p:CollectCoverage=true /p:CoverletOutput="../CoverageResults/" /p:MergeWith="../CoverageResults/coverage.json"
 - cmd: dotnet test ZbW.Testing.WpfSample.Libs.IpInfoInterface.IntegrationTests\ZbW.Testing.WpfSample.Libs.IpInfoInterface.IntegrationTests.csproj /p:CollectCoverage=true /p:CoverletOutput="../CoverageResults/" /p:MergeWith="../CoverageResults/coverage.json" /p:CoverletOutputFormat=opencover
 
